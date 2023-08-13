@@ -141,20 +141,20 @@
 			}
 					
 			function gotRemoteMediaStream(event) {
-
+				
 				const mediaStream = event.stream;
-				const displayStream = event.track;
-				remoteVideo.srcObject = mediaStream;
-				remoteScreen.srcObject = displayStream;
-				console.log('remote peer connection received remote stream')
+				let switchStream = false;
+				mediaStream.getTracks().forEach(track => {
+				if (!switchStream) {
+						remoteVideo.srcObject = mediaStream;
+						switchStream = true;
+				} else {
+						remoteScreen.srcObject = new MediaStream([track]);
+					}
+				});
+
+  			console.log('Remote peer connection received remote stream');
 			}
-
-			// function gotRemoteScreenStream(event) {
-
-			// 	const screenStream = event.stream;
-			// 	remoteScreen.srcObject = screenStream;
-			// 	console.log('remote peer connection received remote stream')
-			// }
 
 			function offerCreate() {
 
@@ -207,8 +207,7 @@
 
 				console.log(error.toString());
 			}
-		
-		
+			
 		</script>
 
 	</body>
