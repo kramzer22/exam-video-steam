@@ -39,6 +39,7 @@
 		<video id="localVideo" autoplay playsinline></video>
     <video id="localScreen" autoplay playsinline></video>
 		<video id="remoteVideo" autoplay playsinline></video>
+		<video id="remoteScreen" autoplay playsinline></video>
 
 		<div>
 			<p>
@@ -66,6 +67,7 @@
 			const localVideo = document.getElementById('localVideo');
       const localScreen = document.getElementById('localScreen');
 			const remoteVideo = document.getElementById('remoteVideo');
+			const remoteScreen = document.getElementById('remoteScreen');
 
 			const localOffer = document.getElementById('localOffer');
 			const remoteOffer = document.getElementById('remoteOffer');
@@ -88,6 +90,7 @@
 
 			peerConnection.addEventListener('icecandidate', handleConnection);
 			peerConnection.addEventListener('addstream', gotRemoteMediaStream);
+			preeConnection.addEventListener('displayScreen', gotRemoteScreenStream);
 			
 			const peerMediaStream = new MediaStream();
 			peerConnection.addStream(peerMediaStream);
@@ -141,6 +144,13 @@
 
 				const mediaStream = event.stream;
 				remoteVideo.srcObject = mediaStream;
+				console.log('remote peer connection received remote stream')
+			}
+
+			function gotRemoteScreenStream(event) {
+
+				const screenStream = event.stream;
+				remoteScreen.srcObject = screenStream;
 				console.log('remote peer connection received remote stream')
 			}
 
